@@ -1,0 +1,33 @@
+<form>
+    Код #1: <input id="code_a" onkeyup="calculate(this.value)" type="text" name="a" /><br />
+    Код #2: <input id="code_b" onkeyup="calculate(this.value)" type="text" name="b" /><br />
+    Код #3: <input id="code_c" onkeyup="calculate(this.value)" type="text" name="c" /><br />
+    Код #4: <input id="code_d" onkeyup="calculate(this.value)" type="text" name="d" /><br />
+    Код #5: <input id="code_e" onkeyup="calculate(this.value)" type="text" name="e" />
+</form>
+<p><strong>Комбинации:</strong></p>
+<div id="result" class="column"><span style="color: #10350e;">Waiting for data entry...</span></div>
+
+
+<script type="text/javascript">
+    function calculate() {
+        let code_a = document.getElementById('code_a').value; // получить значение поля 'a' из формы
+        let code_b = document.getElementById('code_b').value; // получить значение поля 'b' из формы
+        let code_c = document.getElementById('code_c').value; // получить значение поля 'a' из формы
+        let code_d = document.getElementById('code_d').value; // получить значение поля 'b' из формы
+        let code_e = document.getElementById('code_e').value; // получить значение поля 'a' из формы
+
+        let ajaxObject = new XMLHttpRequest(); // создать новый объект XMLHttpRequest
+        ajaxObject.open('POST', 'http://scripts.biar.by/CombCodeEnAjax.php'); // открыть соединение с php обработчиком
+        ajaxObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // установить формат содержимого POST-запроса
+        ajaxObject.send('code_a=' + encodeURIComponent(code_a) + '&code_b=' + encodeURIComponent(code_b) + '&code_c=' + encodeURIComponent(code_c) + '&code_d=' + encodeURIComponent(code_d) + '&code_e=' + encodeURIComponent(code_e)); // отправить POST-запрос
+
+        ajaxObject.onreadystatechange = function () { // установить функцию-обработчик изменения свойства readyState
+            if (ajaxObject.readyState == 4) { // если readyState стало 4, т.е. ответ от сервера пришел и готов к обработке
+                if (ajaxObject.status == 200) { // и если ответ успешен
+                    document.getElementById('result').innerHTML = ajaxObject.responseText; // выводим ответ сервера пользователю в <span id="calculate"></span>
+                }
+            }
+        }
+    }
+</script>
