@@ -1,2 +1,3 @@
 # comboCodeEn
-For encounter 
+Генератор кодов для движка Encounter
+
